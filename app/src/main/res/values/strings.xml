@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LearningMobile</string>
+    <!-- % indicates a placeholder , $ indicates what argument you are passing ex: 1$ first argument
+    d indicates the type of the argument d being decimal
+    -->
+    <string name="result_display">RESULT: %1$d</string>
+    <string name="buttonText">GENERATE NUMBER</string>
+    <string name="result_display_standard">RESULT: </string>
 </resources>
