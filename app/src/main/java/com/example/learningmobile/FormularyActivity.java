@@ -1,7 +1,12 @@
 package com.example.learningmobile;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +21,15 @@ import androidx.core.view.WindowInsetsCompat;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class FormularyActivity extends AppCompatActivity {
 
@@ -69,8 +78,6 @@ public class FormularyActivity extends AppCompatActivity {
                     return;
                 }
 
-                File outfile = new File(getExternalFilesDir(null), "contrato_final.docx");
-
                 try {
 
                     XWPFDocument doc = new XWPFDocument(stream);
@@ -80,31 +87,64 @@ public class FormularyActivity extends AppCompatActivity {
                             if  (r.isItalic()) {
 
                                 String text = r.getText(0);
-                                text = text.trim().replace("\u200B", "");
                                 if (text != null) {
-                                    text.replace("NOME", name)
-                                            .replace("CPF", cpf)
-                                            .replace("ENDERECO", address)
-                                            .replace("INICIO", startDate)
-                                            .replace("FIM", endDate)
-                                            .replace("ALUGUEL", rent)
-                                            .replace("PAGAMENTO", paymentDay)
-                                            .replace("DATA", date)
+                                    text = text.replace("%NOME%", name)
+                                            .replace("%CPF%", cpf)
+                                            .replace("%ENDERECO%", address)
+                                            .replace("%INI%", startDate)
+                                            .replace("%FIM%", endDate)
+                                            .replace("%ALUGUEL%", rent)
+                                            .replace("%PAGAMENTO%", paymentDay)
+                                            .replace("%DATA%", date)
                                     ;
                                     r.setText(text, 0);
+                                    r.setItalic(false);
                                 }
                             }
                         }
                     }
 
-                    FileOutputStream fos = new FileOutputStream(outfile);
-                    doc.write(fos);
+                    for (XWPFTable table : doc.getTables()) {
+                        for (XWPFTableRow row : table.getRows()) {
+                            for (XWPFTableCell cell : row.getTableCells()) {
+                                for (XWPFParagraph p : cell.getParagraphs()) {
+                                    for (XWPFRun r : p.getRuns()) {
+                                        if (r.isItalic()) {
+                                            String text = r.getText(0);
+                                            if (text != null) {
+                                                text = text.replace("%NOME%", name);
+                                                r.setText(text, 0);
+                                                r.setItalic(false);
+                                                r.setBold(true);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Downloads.DISPLAY_NAME, "contrato_final.docx");
+                    values.put(MediaStore.Downloads.MIME_TYPE,
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                    values.put(MediaStore.Downloads.RELATIVE_PATH,
+                            Environment.DIRECTORY_DOWNLOADS);
+
+                    ContentResolver resolver = getContentResolver();
+                    Uri uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+
+                    if (uri != null) {
+                        OutputStream out = resolver.openOutputStream(uri);
+                        doc.write(out);
+                        out.close();
+                    }
+
                     doc.close();
-                    fos.close();
                     stream.close();
 
                     Toast.makeText(FormularyActivity.this,
-                            "Contrato gerado em: " + outfile.getAbsolutePath(),
+                            "Contrato gerado em: downloads",
                             Toast.LENGTH_LONG).show();
 
 
