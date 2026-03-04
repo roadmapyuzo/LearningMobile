@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">LearningMobile</string>
-    <!-- % indicates a placeholder , $ indicates what argument you are passing ex: 1$ first argument
-    d indicates the type of the argument d being decimal
-    -->
-    <string name="result_display">RESULT: %1$d</string>
-    <string name="buttonText">GENERATE NUMBER</string>
-    <string name="result_display_standard">RESULT: </string>
+    <string name="mae_button">Mãe</string>
+    <string name="batian_button">Batian</string>
+    <string name="name_placeholder">Nome do locatário</string>
+    <string name="cpf_placeholder">CPF</string>
+    <string name="address_placeholder">Endereço</string>
+    <string name="startdate_placeholder">Data início</string>
+    <string name="enddate_placeholder">Data fim</string>
+    <string name="rent_placeholder">Aluguel (Número + escrita exemplo: 500 (Quinhentos reais))</string>
+    <string name="date_placeholder">Data (Cidade + data)</string>
+    <string name="paymentday_placeholder">Dia do pagamento</string>
+    <string name="generate_button">Gerar</string>
+
+
 </resources>

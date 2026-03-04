@@ -1,7 +1,9 @@
 package com.example.learningmobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,22 +19,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        Button btnLandlord1 = findViewById(R.id.btnLandlord1);
+        Button btnLandlord2 = findViewById(R.id.btnLandlord2);
+
+        btnLandlord1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, FormularyActivity.class);
+                intent.putExtra("Landlord", "mae");
+                startActivity(intent);
+
+            }
         });
+
+        btnLandlord2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, FormularyActivity.class);
+                intent.putExtra("Landlord", "batian");
+                startActivity(intent);
+
+            }
+        });
+
+
     }
 
-    public void generateNumber(View view) {
 
-        TextView result = findViewById(R.id.resultText);
-
-        int i = new Random().nextInt(10);
-
-        result.setText(getString(R.string.result_display, i));
-
-    }
 }

@@ -7,25 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
-        android:onClick="generateNumber"
-        android:text="@string/buttonText"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
 
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="212dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/result_display_standard"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        >
+
+        <Button
+            android:id="@+id/btnLandlord1"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:text="@string/mae_button"
+            android:minHeight="100dp"
+            android:layout_marginBottom="128dp"
+            />
+
+        <Button
+            android:id="@+id/btnLandlord2"
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:text="@string/batian_button"
+            android:minHeight="100dp"
+            android:layout_marginBottom="128dp"
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
